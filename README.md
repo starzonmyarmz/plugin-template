@@ -12,12 +12,12 @@ parameters before the editor opens.
 
 ## Starting a plugin
 
-Click **Use this template** on GitHub, then rename `Example`:
+Click **Use this template** on GitHub (or `gh repo create --template`), then rename `Example`. `CLAUDE.md` has the rest of the routine:
 
 | What | Where |
 |---|---|
-| Crate name (`example`) | `plugin/Cargo.toml`, `bundler.toml`, `CRATE` in both workflows, `crate` in `scripts/install.sh` |
-| Display name (`Example`) | `bundler.toml`, `NAME` and `PAGE.title` in `plugin/src/lib.rs`, `PLUGIN` in both workflows, `INSTALL.txt`, `<title>` in `ui/index.html` |
+| Crate name (`example`) | `plugin/Cargo.toml`, `bundler.toml`, `CRATE` in both workflows, `crate` in `scripts/install.sh`, `use example::` in `plugin/tests/engine.rs` |
+| Display name (`Example`) | `bundler.toml`, `NAME` and `PAGE.title` in `plugin/src/lib.rs`, `PLUGIN` in both workflows, `INSTALL.txt`, `<title>` in `ui/index.html`, the usage line in `scripts/clap-validator.sh` |
 | Dev URL env var (`EXAMPLE_UI_URL`) | `PAGE.dev_url_var` in `plugin/src/lib.rs` |
 | Plugin IDs | `CLAP_ID` and `VST3_CLASS_ID` (exactly 16 bytes) in `plugin/src/lib.rs`. These must be unique, and must never change after a release. |
 | Description, features, subcategories | `ClapPlugin` and `Vst3Plugin` in `plugin/src/lib.rs` |
