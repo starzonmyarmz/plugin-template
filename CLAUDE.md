@@ -64,37 +64,11 @@ Run `scripts/clap-validator.sh` after any DSP change, not just in CI.
 
 ## Design
 
-Every plugin gets its own look, but they share an approach.
+Follow the README's design principles. On top of those:
 
-- Skeuomorphic: the editor is a physical object (Patina an OP-1-style
-  synth, Halfwit a stompbox, Ghosted a vintage radio), with real
-  materials, like powder coat, bakelite, walnut, brass and grille cloth,
-  built in CSS gradients and shadows rather than images.
-- Pick the object from the plugin's vibe and name, and let the theme
-  run through everything: the wordmark, the art and the control labels.
-  Names should be playful and capture the vibe.
-- Restrained: one knob style and colour family per plugin, and few
-  controls. Fold JSFX sliders into a handful of knobs with evocative
-  names rather than exposing every setting.
-- Colour and art must mean something. If two waves or knobs differ in
-  colour, it's because they differ in function; otherwise make them
-  the same. Art can follow parameters (Ghosted's ghosts fade with Haunt,
-  the dial needle follows Distance), but don't fake audio metering.
-- Labels are plain words a guitarist understands, not DSP terms or
-  fieldset jargon. Use a tooltip value readout for numbers.
-- Typography has character: embed a display face for the wordmark
-  (Futura-like Jost, pillowy Modak), never a system or "commercial"
-  font, and centre it optically on its badge.
-- Illustration should look drawn, not vector-perfect: vary repeated
-  elements (size, tilt, expression), and give outlines weight that
-  swells on the shadow side, like inked comic art.
-- Guitar pedals and other audio effects get a footswitch (an on/off
-  toggle, `stomp`, on by default) unless the user says otherwise. Off
-  fades the effect out and passes the dry signal; show the state with a
-  lamp or LED, and let the art react (Ghosted's dial dims and its ghosts
-  leave).
-- Physical details behave physically: shadows stay put while a knob
-  turns, pressed keys sink, lit things glow.
+- When porting a JSFX, fold its sliders into the few knobs the
+  principles call for.
+- Add the footswitch to effects unless the user says otherwise.
 - Before building, ask about palette, the central object and what the
   art should react to, with previews. Show font candidates side by side
   in place before choosing one.

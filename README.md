@@ -22,6 +22,39 @@ parameters before the editor opens.
   app. It came first, and the template's build and release setup comes
   from it.
 
+## Design
+
+Every plugin gets its own look, but they share an approach.
+
+- **Skeuomorphic.** The editor is a physical object (Patina an
+  OP-1-style synth, Halfwit a stompbox, Ghosted a vintage radio), with
+  real materials like powder coat, bakelite, walnut, brass and grille
+  cloth, built in CSS gradients and shadows rather than images.
+- **One theme.** Pick the object from the plugin's vibe and name, and
+  let it run through everything: the wordmark, the art and the control
+  labels. Names should be playful and capture the vibe.
+- **Restrained.** One knob style and colour family per plugin, and few
+  controls. Fold many settings into a handful of knobs with evocative
+  names rather than exposing every one.
+- **Colour and art mean something.** If two waves or knobs differ in
+  colour, it's because they differ in function; otherwise make them the
+  same. Art can follow parameters (Ghosted's ghosts fade with Haunt, the
+  dial needle follows Distance), but don't fake audio metering.
+- **Plain labels.** Words a guitarist understands, not DSP terms or
+  fieldset jargon. Numbers go in a tooltip readout.
+- **Type with character.** Embed a display face for the wordmark
+  (Futura-like Jost, pillowy Modak), never a system or "commercial"
+  font, and centre it optically on its badge.
+- **Drawn, not vector-perfect.** Vary repeated elements (size, tilt,
+  expression), and give outlines weight that swells on the shadow side,
+  like inked comic art.
+- **A footswitch on effects.** Pedals and other effects get an on/off
+  toggle (`stomp`, on by default). Off fades the effect out and passes
+  the dry signal; a lamp or LED shows the state, and the art reacts
+  (Ghosted's dial dims and its ghosts leave).
+- **Physical details behave physically.** Shadows stay put while a knob
+  turns, pressed keys sink, lit things glow.
+
 ## Starting a plugin
 
 Click **Use this template** on GitHub (or `gh repo create --template`), then rename `Example`. `CLAUDE.md` has the rest of the routine:
