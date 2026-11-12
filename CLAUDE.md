@@ -25,29 +25,20 @@ how they did it.
   layout, where a new parameter has to go, golden renders, window size,
   screenshot and releases.
 
-## Porting a JSFX
+## Skills
 
-JSFX sources are in REAPER's `Effects` folder, or `~/Code/jsfx`.
+`.claude/skills` has the routines plugins repeat. Use them rather than
+working from memory:
 
-The JSFX is only a prototype. Never mention it in the plugin's repo:
+- `design-kickoff`: settle the look before building the editor.
+- `screenshot`: retake `docs/<name>.jpg` after a visible UI change.
+- `port-jsfx`: port a JSFX prototype, cross-checked and locked in.
+- `bless-goldens`: rewrite golden renders, and have the user listen
+  before committing.
+
+If a plugin is ported from a JSFX, never mention the JSFX in its repo:
 not in the README, CLAUDE.md, code, comments, test names or parameter
-tables, and not in commit messages. Describe the plugin on its own terms.
-Keep the cross-check script outside the repo.
-
-1. Port the engine in f64, keeping the JSFX's sliders one for one in a
-   `Settings` struct. If the front panel simplifies them, map knobs to
-   `Settings` in a separate step, so the engine can still be compared
-   with the JSFX.
-2. Cross-check against a line-by-line Python transliteration of the
-   JSFX, run over a real DI (`plugin/tests/di`), to within about 1e-8. If
-   the JSFX calls `rand()`, use the same seeded RNG in both (Ghosted uses
-   xorshift64*) and draw in the same order.
-3. Lock it in with golden renders. Never commit rewritten golden files
-   until the user has listened to them, and say in the commit what
-   changed in the sound.
-4. Then add what the JSFX lacks: glides on parameters that click, slew
-   limits on modulated delay times (an unlimited glide can read a delay
-   line backwards), and subnormal flushing.
+tables, and not in commit messages.
 
 ## Things clap-validator catches
 
@@ -64,14 +55,9 @@ Run `scripts/clap-validator.sh` after any DSP change, not just in CI.
 
 ## Design
 
-Follow the README's design principles. On top of those:
-
-- When porting a JSFX, fold its sliders into the few knobs the
-  principles call for.
-- Add the footswitch to effects unless the user says otherwise.
-- Before building, ask about palette, the central object and what the
-  art should react to, with previews. Show font candidates side by side
-  in place before choosing one.
+Follow the README's design principles, and use the `design-kickoff`
+skill before building. Effects get the footswitch unless the user says
+otherwise.
 
 ## Editor
 
@@ -91,9 +77,8 @@ Follow the README's design principles. On top of those:
 - Before relying on a newer CSS feature, check it's in Safari's WebKit
   for the macOS versions you support. The macOS webview is the system
   WKWebView; Windows uses WebView2 (current Chromium).
-- After a visible UI change, retake `docs/<name>.jpg`: capture the full
-  window at device scale 2 with reduced motion, save it as a JPEG 852 px
-  tall, and set the README `<img>` width to half the JPEG's width.
+- After a visible UI change, retake `docs/<name>.jpg` with the
+  `screenshot` skill.
 
 ## Testing in REAPER
 
