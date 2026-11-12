@@ -119,3 +119,22 @@ Every plugin gets its own look, but they share an approach.
 - Multi-output plugins: declare a second layout without the aux port so
   hosts without multi-out still load them, and keep a scratch buffer for
   the aux signal in that case (see Halfwit).
+
+## nice-plug fork
+
+Plugins pin the `patina` branch of
+[starzonmyarmz/nice-plug](https://github.com/starzonmyarmz/nice-plug/tree/patina):
+upstream nice-plug plus one commit (`d1f60d2`) that adds
+`ActivateContext::gui_context()`, so a hardware controller can set
+parameters before the editor has opened. Patina relies on it for its
+MiniLab knobs. Keep the fork to that one commit: anything else on the
+branch has to be carried through every rebase.
+
+- Upgrading: rebase `patina` onto upstream, push, and bump the `rev` in
+  every repo that pins it (`plugin/` and `xtask/` `Cargo.toml`, plus
+  `app/` in Patina). Then run the tests and clap-validator in each.
+- Don't send the patch upstream as a PR. It was written with AI, and
+  nice-plug's [AI policy](https://rust.audio/community/ai/) doesn't
+  accept AI-written code, PR descriptions or comments. If the need
+  should be raised, the user writes an issue by hand that describes only
+  the use case.
