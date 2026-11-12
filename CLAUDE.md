@@ -29,6 +29,11 @@ how they did it.
 
 JSFX sources are in REAPER's `Effects` folder, or `~/Code/jsfx`.
 
+The JSFX is only a prototype. Never mention it in the plugin's repo:
+not in the README, CLAUDE.md, code, comments, test names or parameter
+tables, and not in commit messages. Describe the plugin on its own terms.
+Keep the cross-check script outside the repo.
+
 1. Port the engine in f64, keeping the JSFX's sliders one for one in a
    `Settings` struct. If the front panel simplifies them, map knobs to
    `Settings` in a separate step, so the engine can still be compared
@@ -83,6 +88,11 @@ Every plugin gets its own look, but they share an approach.
 - Illustration should look drawn, not vector-perfect: vary repeated
   elements (size, tilt, expression), and give outlines weight that
   swells on the shadow side, like inked comic art.
+- Guitar pedals and other audio effects get a footswitch (an on/off
+  toggle, `stomp`, on by default) unless the user says otherwise. Off
+  fades the effect out and passes the dry signal; show the state with a
+  lamp or LED, and let the art react (Ghosted's dial dims and its ghosts
+  leave).
 - Physical details behave physically: shadows stay put while a knob
   turns, pressed keys sink, lit things glow.
 - Before building, ask about palette, the central object and what the
