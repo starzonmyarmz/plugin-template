@@ -24,9 +24,9 @@ pub fn read_wav(path: &PathBuf) -> (Vec<f32>, u32) {
     (samples, spec.sample_rate)
 }
 
-/// Writes mono f32 samples as a 32-bit float WAV.
-pub fn write_wav(path: &PathBuf, samples: &[f32], sample_rate: u32) {
-    let spec = hound::WavSpec { channels: 1, sample_rate, bits_per_sample: 32, sample_format: hound::SampleFormat::Float };
+/// Writes mono or interleaved f32 samples as a 32-bit float WAV.
+pub fn write_wav(path: &PathBuf, samples: &[f32], channels: u16, sample_rate: u32) {
+    let spec = hound::WavSpec { channels, sample_rate, bits_per_sample: 32, sample_format: hound::SampleFormat::Float };
     let mut writer = hound::WavWriter::create(path, spec).unwrap();
     for &s in samples {
         writer.write_sample(s).unwrap();
@@ -37,9 +37,19 @@ pub fn write_wav(path: &PathBuf, samples: &[f32], sample_rate: u32) {
 /// Compares `output` with tests/golden/<name>.wav, or rewrites it when BLESS
 /// is set.
 pub fn check_golden(name: &str, output: &[f32], sample_rate: u32) {
+    compare_golden(name, output, 1, sample_rate);
+}
+
+/// [`check_golden`] for a stereo render, stored as a stereo WAV.
+pub fn check_golden_stereo(name: &str, left: &[f32], right: &[f32], sample_rate: u32) {
+    let interleaved: Vec<f32> = left.iter().zip(right).flat_map(|(&l, &r)| [l, r]).collect();
+    compare_golden(name, &interleaved, 2, sample_rate);
+}
+
+fn compare_golden(name: &str, output: &[f32], channels: u16, sample_rate: u32) {
     let path = path("golden", &format!("{name}.wav"));
     if std::env::var_os("BLESS").is_some() {
-        write_wav(&path, output, sample_rate);
+        write_wav(&path, output, channels, sample_rate);
         return;
     }
     let (expected, _) = read_wav(&path);

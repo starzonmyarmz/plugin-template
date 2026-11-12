@@ -43,6 +43,8 @@ values to the engine once per block.
 - `check_golden` compares a render with `plugin/tests/golden/<name>.wav`.
   After an intended change to the sound, rerun with `BLESS=1` to rewrite
   the golden files, then listen to them before committing.
+- `check_golden_stereo` does the same for a stereo render, stored as a
+  stereo WAV, for effects whose width matters.
 - `tone` makes a test note with a few harmonics, for checks that don't
   need a recording.
 
