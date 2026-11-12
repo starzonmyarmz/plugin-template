@@ -1,6 +1,8 @@
 mod bridge;
 mod editor;
+pub mod engine;
 
+use engine::Engine;
 use nice_plug::prelude::*;
 use std::sync::Arc;
 
@@ -14,6 +16,7 @@ static PAGE: editor::Page = editor::Page {
 
 pub struct Example {
     params: Arc<ExampleParams>,
+    engine: Engine,
 }
 
 #[derive(Params)]
@@ -25,11 +28,10 @@ struct ExampleParams {
 impl Default for Example {
     fn default() -> Self {
         let gain = FloatParam::new("Gain", util::db_to_gain(0.0), FloatRange::gain_range(-30.0, 30.0))
-            .with_smoother(SmoothingStyle::Logarithmic(50.0))
             .with_unit(" dB")
             .with_value_to_string(formatters::v2s_f32_gain_to_db(2))
             .with_string_to_value(formatters::s2v_f32_gain_to_db());
-        Self { params: Arc::new(ExampleParams { gain }) }
+        Self { params: Arc::new(ExampleParams { gain }), engine: Engine::new(48_000.0) }
     }
 }
 
@@ -58,17 +60,32 @@ impl Plugin for Example {
         Some(editor::WebEditor::new(&PAGE, self.params.clone()))
     }
 
+    fn activate(
+        &mut self,
+        _layout: &AudioIOLayout,
+        buffer_config: &BufferConfig,
+        _context: &mut impl ActivateContext<Self>,
+    ) -> bool {
+        if self.engine.sample_rate() != buffer_config.sample_rate {
+            self.engine = Engine::new(buffer_config.sample_rate);
+        }
+        self.engine.reset(self.params.gain.value());
+        true
+    }
+
+    fn reset(&mut self) {
+        self.engine.reset(self.params.gain.value());
+    }
+
     fn process(
         &mut self,
         buffer: &mut Buffer,
         _aux: &mut AuxiliaryBuffers,
         _context: &mut impl ProcessContext<Self>,
     ) -> ProcessStatus {
-        for samples in buffer.iter_samples() {
-            let gain = self.params.gain.smoothed.next();
-            for sample in samples {
-                *sample *= gain;
-            }
+        self.engine.set_gain(self.params.gain.value());
+        if let [left, right] = buffer.as_slice() {
+            self.engine.process(left, right);
         }
         ProcessStatus::Normal
     }

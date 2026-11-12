@@ -30,6 +30,26 @@ scripts/install.sh                         # bundle, sign ad hoc and install on 
 scripts/clap-validator.sh target/bundled/Example.clap
 ```
 
+## Tests
+
+The DSP lives in `plugin/src/engine.rs`, apart from the host plumbing in
+`lib.rs`, so `cargo test` can run it offline. The plugin passes parameter
+values to the engine once per block.
+
+`plugin/tests/support` has helpers for checking sound, not just numbers:
+
+- `read_wav` loads test input, such as a guitar DI checked into
+  `plugin/tests/di`.
+- `check_golden` compares a render with `plugin/tests/golden/<name>.wav`.
+  After an intended change to the sound, rerun with `BLESS=1` to rewrite
+  the golden files, then listen to them before committing.
+- `tone` makes a test note with a few harmonics, for checks that don't
+  need a recording.
+
+`plugin/tests/engine.rs` shows the pattern: render through the engine
+in host-sized blocks, then compare with a golden file or assert on the
+output directly.
+
 ## CI and releases
 
 - `check.yml` runs on pushes to main and on PRs: the tests and clap-validator
