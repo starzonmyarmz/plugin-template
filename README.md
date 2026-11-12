@@ -3,7 +3,7 @@
 A starting point for VST3 + CLAP plugins in Rust for macOS and Windows,
 built with [nice-plug](https://codeberg.org/RustAudio/nice-plug), with the
 build and release setup from [Patina](https://github.com/starzonmyarmz/patina).
-The plugin itself is a gain knob, there to prove the setup works.
+The plugin itself is a gain knob with a webview editor, there to prove the setup works.
 
 It pins the same nice-plug fork as Patina
 ([starzonmyarmz/nice-plug](https://github.com/starzonmyarmz/nice-plug/tree/patina)),
@@ -17,7 +17,8 @@ Click **Use this template** on GitHub, then rename `Example`:
 | What | Where |
 |---|---|
 | Crate name (`example`) | `plugin/Cargo.toml`, `bundler.toml`, `CRATE` in both workflows, `crate` in `scripts/install.sh` |
-| Display name (`Example`) | `bundler.toml`, `NAME` in `plugin/src/lib.rs`, `PLUGIN` in both workflows, `INSTALL.txt` |
+| Display name (`Example`) | `bundler.toml`, `NAME` and `PAGE.title` in `plugin/src/lib.rs`, `PLUGIN` in both workflows, `INSTALL.txt`, `<title>` in `ui/index.html` |
+| Dev URL env var (`EXAMPLE_UI_URL`) | `PAGE.dev_url_var` in `plugin/src/lib.rs` |
 | Plugin IDs | `CLAP_ID` and `VST3_CLASS_ID` (exactly 16 bytes) in `plugin/src/lib.rs`. These must be unique, and must never change after a release. |
 | Description, features, subcategories | `ClapPlugin` and `Vst3Plugin` in `plugin/src/lib.rs` |
 
@@ -46,11 +47,47 @@ To release: bump `version` in `Cargo.toml`, commit, then
 Rebase the fork's `patina` branch onto newer nice-plug, push it, and update
 the `rev` in `plugin/Cargo.toml` and `xtask/Cargo.toml`.
 
-## Adding a webview editor or a standalone app
+## The editor
 
-Copy them from Patina (`plugin/src/editor.rs`, `plugin/src/chrome.rs`,
-`app/`). They aren't here yet because they're built around Patina's
-parameters, and the reusable shape should come from the second plugin that
-needs them. Bring along the `[profile.dev.package.*]` overrides in Patina's
-root `Cargo.toml`: debug builds otherwise abort when old objc-based crates
-message nil.
+The editor is a [wry](https://github.com/tauri-apps/wry) webview in a
+[baseview](https://github.com/RustAudio/baseview) window, showing
+`ui/index.html`, which is compiled into the plugin.
+
+- `plugin/src/editor.rs` hosts the page. `PAGE` in `lib.rs` is its only
+  config: title, size, HTML, the background shown until the page
+  paints, and an env var that loads the page from a dev server instead.
+- `plugin/src/bridge.rs` connects the page to any `#[derive(Params)]`
+  struct through `param_map()`. The page sends `ready`, then `begin`,
+  `set` and `end` with normalized values; the plugin answers with
+  `init` (each parameter's id, name, step count, options and default)
+  and `values` (normalized value and the plugin's formatted text).
+- Host keys go to the page only while something on it has focus, so
+  shortcuts like play keep working.
+
+The starter page builds a knob for every parameter, or a switch for
+two-step ones, so a new plugin has a working UI right away. Replace it
+with a hand-laid page once the controls settle;
+[Halfwit](https://github.com/starzonmyarmz/halfwit)'s pedal is an
+example.
+
+Without the plugin, the page runs against a mock bridge in
+`ui/index.html`. Keep the mock's parameters in step with the plugin's,
+then work on the page in a browser:
+
+```sh
+cd ui && python3 -m http.server 8765    # open http://127.0.0.1:8765
+```
+
+Set `EXAMPLE_UI_URL` to that URL before starting the host to load it
+live in the plugin.
+
+Fonts can't load from the network in the plugin: embed them as base64
+`@font-face` data URLs, and keep the font file and its license in
+`ui/fonts`.
+
+## Adding a standalone app
+
+Copy it from Patina (`app/`). It isn't here yet because it's built
+around Patina's parameters, and the reusable shape should come from the
+second plugin that needs one. Guitar plugins will also need audio input
+selection, which Patina's app doesn't have.

@@ -1,5 +1,16 @@
+mod bridge;
+mod editor;
+
 use nice_plug::prelude::*;
 use std::sync::Arc;
+
+static PAGE: editor::Page = editor::Page {
+    title: "Example",
+    size: (360, 220),
+    html: include_str!("../../ui/index.html"),
+    background: (27, 26, 25, 255),
+    dev_url_var: "EXAMPLE_UI_URL",
+};
 
 pub struct Example {
     params: Arc<ExampleParams>,
@@ -35,12 +46,16 @@ impl Plugin for Example {
         ..AudioIOLayout::const_default()
     }];
 
-    type Editor = ();
+    type Editor = editor::WebEditor;
     type SysExMessage = ();
     type BackgroundTask = ();
 
     fn params(&self) -> Arc<dyn Params> {
         self.params.clone()
+    }
+
+    fn editor(&mut self, _executor: AsyncExecutor<Self>) -> Option<Self::Editor> {
+        Some(editor::WebEditor::new(&PAGE, self.params.clone()))
     }
 
     fn process(
