@@ -334,7 +334,7 @@
     const specs = [
       { id: "gain", name: "Gain", steps: 0, default: 0.5, text: (n) => `${(n * 60 - 30).toFixed(2)} dB` },
     ];
-    const version = "0.1.0";
+    const version = new URLSearchParams(location.search).get("version") ?? "0.0.0";
     const values = Object.fromEntries(specs.map((s) => [s.id, s.default]));
     const send = (msg) => setTimeout(() => window.onPluginMessage(msg));
     const sendValues = (ids) => send({

@@ -111,6 +111,10 @@ output directly.
   root `Cargo.toml`. It builds a universal macOS bundle and a Windows bundle,
   validates both, and publishes `Example-X.Y.Z.zip` with `INSTALL.txt`. A
   version with a suffix (`1.0.0-beta.1`) becomes a prerelease.
+- `screenshot.yml` runs on pushes to main that touch `ui/`, the version or
+  `plugin/src/lib.rs`. It retakes `docs/example.jpg` with
+  `scripts/screenshot.sh`, sets its width in the README, and commits both
+  if the image changed. It doesn't run in the template itself.
 
 To release: bump `version` in `Cargo.toml`, commit, then
 `git tag vX.Y.Z && git push origin main vX.Y.Z`.
@@ -145,14 +149,15 @@ with a hand-laid page once the controls settle;
 example.
 
 Without the plugin, the page runs against a mock bridge in
-`ui/index.html`. Keep the mock's parameters and version in step with
-the plugin's, then work on the page in a browser:
+`ui/index.html`. Keep the mock's parameters in step with the plugin's,
+then work on the page in a browser:
 
 ```sh
 cd ui && python3 -m http.server 8765    # open http://127.0.0.1:8765
 ```
 
-Set `EXAMPLE_UI_URL` to that URL before starting the host to load it
+Add `?version=1.2.0` to show a version other than `0.0.0`. Set
+`EXAMPLE_UI_URL` to that URL before starting the host to load it
 live in the plugin.
 
 Fonts can't load from the network in the plugin: embed them as base64

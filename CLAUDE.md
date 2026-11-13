@@ -79,7 +79,8 @@ otherwise.
   for the macOS versions you support. The macOS webview is the system
   WKWebView; Windows uses WebView2 (current Chromium).
 - After a visible UI change, retake `docs/<name>.jpg` with the
-  `screenshot` skill.
+  `screenshot` skill. The Screenshot workflow also retakes it on main,
+  but it can't update the README's `alt` text.
 
 ## Testing in REAPER
 
