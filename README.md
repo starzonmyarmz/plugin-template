@@ -12,12 +12,14 @@ parameters before the editor opens.
 
 ## Plugins made with it
 
-<img src="https://raw.githubusercontent.com/starzonmyarmz/halfwit/main/docs/halfwit.jpg" height="200" alt="Halfwit, a mustard-yellow stompbox with knobs and a footswitch"> <img src="https://raw.githubusercontent.com/starzonmyarmz/ghosted/main/docs/ghosted.jpg" height="200" alt="Ghosted, a vintage walnut and bakelite radio with an amber dial full of ghosts"> <img src="https://raw.githubusercontent.com/starzonmyarmz/patina/main/docs/screenshot-1.0.0.jpg" height="200" alt="Patina’s synth editor">
+<img src="https://raw.githubusercontent.com/starzonmyarmz/halfwit/main/docs/halfwit.jpg" height="200" alt="Halfwit, a mustard-yellow stompbox with knobs and a footswitch"> <img src="https://raw.githubusercontent.com/starzonmyarmz/ghosted/main/docs/ghosted.jpg" height="200" alt="Ghosted, a vintage walnut and bakelite radio with an amber dial full of ghosts"> <img src="https://raw.githubusercontent.com/starzonmyarmz/altitude/main/docs/altitude.jpg" height="200" alt="Altitude, a powder-blue stompbox printed in navy, with five slide faders and a footswitch"> <img src="https://raw.githubusercontent.com/starzonmyarmz/patina/main/docs/screenshot-1.0.0.jpg" height="200" alt="Patina’s synth editor">
 
 - [Halfwit](https://github.com/starzonmyarmz/halfwit): an octave-divider
   bass layer for guitar, as a stompbox.
 - [Ghosted](https://github.com/starzonmyarmz/ghosted): drifting
   double-tracking, from ADT to slapback, as a vintage radio.
+- [Altitude](https://github.com/starzonmyarmz/altitude): stacked octaves,
+  two down to two up, with presets, as a screen-printed stompbox.
 - [Patina](https://github.com/starzonmyarmz/patina): a polysynth and Mac
   app. It came first, and the template's build and release setup comes
   from it.

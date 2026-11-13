@@ -7,8 +7,9 @@ learned the hard way. History and reasoning live in the Keep Up idea
 section there when a plugin is started or ships, and a "Gotchas from
 <plugin>" list for anything new.
 
-Plugins made from it so far: Halfwit (octave-divider bass splitter) and
-Ghosted (drifting ADT/slapback). When something here is unclear, look at
+Plugins made from it so far: Halfwit (octave-divider bass splitter),
+Ghosted (drifting ADT/slapback) and Altitude (stacked octaves, with
+presets in the editor). When something here is unclear, look at
 how they did it.
 
 ## Starting a plugin
