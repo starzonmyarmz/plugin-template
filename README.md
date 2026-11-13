@@ -54,6 +54,10 @@ Every plugin gets its own look, but they share an approach.
   toggle (`stomp`, on by default). Off fades the effect out and passes
   the dry signal; a lamp or LED shows the state, and the art reacts
   (Ghosted's dial dims and its ghosts leave).
+- **The version on the panel.** Print it small and quiet as part of the
+  object, like a model number on a pedal's base plate or a serial plate on
+  a radio's back (`v1.2.0`), so anyone can tell which build they're
+  running. It comes from `version` in the root `Cargo.toml`.
 - **Physical details behave physically.** Shadows stay put while a knob
   turns, pressed keys sink, lit things glow.
 
@@ -128,8 +132,9 @@ The editor is a [wry](https://github.com/tauri-apps/wry) webview in a
 - `plugin/src/bridge.rs` connects the page to any `#[derive(Params)]`
   struct through `param_map()`. The page sends `ready`, then `begin`,
   `set` and `end` with normalized values; the plugin answers with
-  `init` (each parameter's id, name, step count, options and default)
-  and `values` (normalized value and the plugin's formatted text).
+  `init` (the plugin's version, and each parameter's id, name, step
+  count, options and default) and `values` (normalized value and the
+  plugin's formatted text).
 - Host keys go to the page only while something on it has focus, so
   shortcuts like play keep working.
 
@@ -140,8 +145,8 @@ with a hand-laid page once the controls settle;
 example.
 
 Without the plugin, the page runs against a mock bridge in
-`ui/index.html`. Keep the mock's parameters in step with the plugin's,
-then work on the page in a browser:
+`ui/index.html`. Keep the mock's parameters and version in step with
+the plugin's, then work on the page in a browser:
 
 ```sh
 cd ui && python3 -m http.server 8765    # open http://127.0.0.1:8765

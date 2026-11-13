@@ -10,6 +10,7 @@ static PAGE: editor::Page = editor::Page {
     title: "Example",
     size: (360, 220),
     html: include_str!("../../ui/index.html"),
+    version: env!("CARGO_PKG_VERSION"),
     background: (27, 26, 25, 255),
     dev_url_var: "EXAMPLE_UI_URL",
 };

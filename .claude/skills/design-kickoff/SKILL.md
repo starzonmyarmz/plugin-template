@@ -20,7 +20,9 @@ and font.
    sound needs, and give them evocative, plain-word names that suit the
    object (Ghosted's Haunt, Drift, Spook). Effects get a `stomp`
    footswitch, on by default, unless the user says otherwise. Ask the
-   user to confirm the list.
+   user to confirm the list, and where the version goes on the object
+   (a model number on a base plate, a serial plate, small print under
+   the wordmark).
 4. **Palette and art.** Ask about the palette and what the art reacts
    to, with previews. Art follows parameters only. Don't fake metering.
    Colours differ only where functions do.
@@ -31,7 +33,8 @@ and font.
 6. **Build it.** Lay out the page by hand in `ui/index.html`, with the
    font embedded as a base64 `@font-face` subset and its file and
    license in `ui/fonts`. Set `PAGE.size` and the page's outer element
-   to the same size. Then use the `screenshot` skill.
+   to the same size. Print `v` plus `init`'s `version` where the user
+   chose. Then use the `screenshot` skill.
 
-Record the decisions (object, palette, font, control names) in the
-plugin's `CLAUDE.md`, so later changes keep to them.
+Record the decisions (object, palette, font, control names, where the
+version sits) in the plugin's `CLAUDE.md`, so later changes keep to them.

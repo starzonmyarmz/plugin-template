@@ -10,8 +10,8 @@ it whenever a change to `ui/index.html` would show in the window.
 
 1. Serve the page against its mock bridge:
    `cd ui && python3 -m http.server 8765`. Check the mock's `specs` match the
-   plugin's parameters and defaults first, so the shot shows the real
-   controls at their defaults.
+   plugin's parameters and defaults, and its `version` matches the root
+   `Cargo.toml`, so the shot shows the real controls at their defaults.
 2. With Playwright, open a context at device scale factor 2 with reduced
    motion, and a viewport of `PAGE.size` from `plugin/src/lib.rs`. The MCP
    tools can't set those, so use `browser_run_code_unsafe`:

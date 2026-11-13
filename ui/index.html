@@ -55,6 +55,16 @@
     background: var(--panel);
   }
 
+  .version {
+    position: absolute;
+    inset-block-end: 10px;
+    inset-inline-end: 12px;
+    margin: 0;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+
   .control {
     display: grid;
     justify-items: center;
@@ -142,6 +152,7 @@
 </head>
 <body>
 <main id="controls"></main>
+<p class="version" id="version"></p>
 
 <script>
 (() => {
@@ -298,6 +309,7 @@
     switch (msg.type) {
       case "key": return forwardKey(msg);
       case "init":
+        document.getElementById("version").textContent = `v${msg.version}`;
         params.clear();
         msg.params.forEach((p) => params.set(p.id, { ...p, value: p.default, text: "" }));
         build();
@@ -322,6 +334,7 @@
     const specs = [
       { id: "gain", name: "Gain", steps: 0, default: 0.5, text: (n) => `${(n * 60 - 30).toFixed(2)} dB` },
     ];
+    const version = "0.1.0";
     const values = Object.fromEntries(specs.map((s) => [s.id, s.default]));
     const send = (msg) => setTimeout(() => window.onPluginMessage(msg));
     const sendValues = (ids) => send({
@@ -331,7 +344,7 @@
     return (msg) => {
       switch (msg.type) {
         case "ready":
-          send({ type: "init", params: specs.map(({ text, ...rest }) => ({ options: [], ...rest })) });
+          send({ type: "init", version, params: specs.map(({ text, ...rest }) => ({ options: [], ...rest })) });
           sendValues(specs.map((s) => s.id));
           return;
         case "set":
